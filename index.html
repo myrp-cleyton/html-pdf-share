@@ -67,8 +67,8 @@
       const canvasElement = document.querySelector('canvas');
 
       canvasElement.toBlob(async (blob) => {
-        const file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
-        const frile = document.querySelector('input[type="file"').files[0]
+        const file = [new File([blob], "canvas.png", { type: "image/png" })]
+        const frile = document.querySelector('input[type="file"').files
         console.log(file, frile)
 
         if (!navigator.canShare) {
@@ -101,7 +101,7 @@
         } else {
           output.textContent = `Your system doesn't support sharing these files.`
         }
-      }, 'image/jpeg');
+      }, 'image/png');
     })
   </script>
 </body>
