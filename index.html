@@ -66,11 +66,8 @@
       });
       const canvasElement = document.querySelector('canvas');
 
-      await canvasElement.toBlob(async function (image) {
-        if (!image) {
-          output.textContent = 'No files selected.'
-          return
-        }
+      canvasElement.toBlob(async (blob) => {
+        let file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
 
         // feature detecting navigator.canShare() also implies
         // the same for the navigator.share()
@@ -79,10 +76,10 @@
           return
         }
 
-        if (navigator.canShare({ image })) {
+        if (navigator.canShare({ file })) {
           try {
             await navigator.share({
-              image,
+              file,
               title: 'Images',
               text: 'Beautiful images'
             })
@@ -93,7 +90,7 @@
         } else {
           output.textContent = `Your system doesn't support sharing these files.`
         }
-      }, 'image/jpeg', '1');
+      }, 'image/jpeg');
     })
   </script>
 </body>
