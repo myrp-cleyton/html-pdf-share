@@ -10,52 +10,91 @@
 
 <body>
   <div id="toPDF">
-
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Massa massa ultricies mi quis hendrerit dolor magna eget. Lectus urna duis convallis convallis
+      tellus id interdum velit. Facilisis mauris sit amet massa vitae. Ut sem nulla pharetra diam sit amet nisl. Proin
+      libero nunc consequat interdum varius. Quis enim lobortis scelerisque fermentum dui faucibus in. Facilisi etiam
+      dignissim diam quis. Volutpat sed cras ornare arcu dui vivamus arcu. Urna neque viverra justo nec ultrices. Metus
+      vulputate eu scelerisque felis imperdiet proin fermentum. Consequat mauris nunc congue nisi vitae suscipit.</div>
+    <div>Sit amet porttitor eget dolor morbi non arcu. In nulla posuere sollicitudin aliquam ultrices sagittis orci a
+      scelerisque. Malesuada proin libero nunc consequat interdum varius. Sapien et ligula ullamcorper malesuada proin
+      libero. Natoque penatibus et magnis dis parturient montes nascetur. Quis enim lobortis scelerisque fermentum dui
+      faucibus in. Iaculis urna id volutpat lacus laoreet non curabitur gravida arcu. Sit amet nisl purus in. Sit amet
+      venenatis urna cursus eget nunc scelerisque. Morbi enim nunc faucibus a. Augue eget arcu dictum varius duis at
+      consectetur. Enim sit amet venenatis urna cursus eget. Nunc eget lorem dolor sed. Ut etiam sit amet nisl purus.
+      Nec feugiat in fermentum posuere. Ultricies lacus sed turpis tincidunt id aliquet risus feugiat in. Posuere morbi
+      leo urna molestie. Facilisis leo vel fringilla est ullamcorper. Mauris rhoncus aenean vel elit scelerisque mauris
+      pellentesque pulvinar pellentesque.</div>
+    <div>Id aliquet lectus proin nibh nisl condimentum id venenatis. Egestas maecenas pharetra convallis posuere.
+      Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Justo nec ultrices dui sapien eget. Quisque egestas
+      diam in arcu. Amet massa vitae tortor condimentum lacinia. Blandit cursus risus at ultrices mi. Dictum fusce ut
+      placerat orci. Velit scelerisque in dictum non consectetur. Amet mattis vulputate enim nulla aliquet porttitor
+      lacus luctus. Odio ut sem nulla pharetra diam sit amet nisl. Lacus sed viverra tellus in. Adipiscing tristique
+      risus nec feugiat in fermentum posuere urna. Semper feugiat nibh sed pulvinar. Morbi tempus iaculis urna id
+      volutpat lacus. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum.</div>
+    <div>Nunc sed id semper risus. Dui ut ornare lectus sit amet est. Integer feugiat scelerisque varius morbi enim
+      nunc. At imperdiet dui accumsan sit amet nulla facilisi morbi tempus. Ut enim blandit volutpat maecenas volutpat
+      blandit aliquam etiam. Nisl condimentum id venenatis a. Sed ullamcorper morbi tincidunt ornare. Nisl condimentum
+      id venenatis a condimentum vitae. Eu nisl nunc mi ipsum. Maecenas pharetra convallis posuere morbi leo urna
+      molestie at.</div>
   </div>
-  <div>
-    <label for="files">Select images to share:</label>
-    <input id="files" type="file" accept="*" multiple>
+
+  <div data-html2canvas-ignore>
+    <div>
+      <label for="files">Select images to share:</label>
+      <input id="files" type="file" accept="*" multiple>
+    </div>
+
+    <button id="share" type="button">Share your PDF!</button>
+    <output id="output"></output>
   </div>
-  <button id="share" type="button">Share your images!</button>
-  <output id="output"></output>
 
+  <style>
+    canvas {
+      display: none
+    }
+  </style>
 
+  <script src="./html2canvas.js"></script>
   <script>
     const input = document.getElementById('files')
     const output = document.getElementById('output')
 
     document.getElementById('share').addEventListener('click', async () => {
-      const files = input.files
+      await html2canvas(document.body).then(function (canvas, options) {
+        document.body.appendChild(canvas);
+      });
+      const canvasElement = document.querySelector('canvas');
 
-      if (files.length === 0) {
-        output.textContent = 'No files selected.'
-        return
-      }
-
-      // feature detecting navigator.canShare() also implies
-      // the same for the navigator.share()
-      if (!navigator.canShare) {
-        output.textContent = `Your browser doesn't support the Web Share API.`
-        return
-      }
-
-      if (navigator.canShare({ files })) {
-        try {
-          await navigator.share({
-            files,
-            title: 'Images',
-            text: 'Beautiful images'
-          })
-          output.textContent = 'Shared!'
-        } catch (error) {
-          output.textContent = `Error: ${error.message}`
+      await canvasElement.toBlob(async function (image) {
+        if (!image) {
+          output.textContent = 'No files selected.'
+          return
         }
-      } else {
-        output.textContent = `Your system doesn't support sharing these files.`
-      }
+
+        // feature detecting navigator.canShare() also implies
+        // the same for the navigator.share()
+        if (!navigator.canShare) {
+          output.textContent = `Your browser doesn't support the Web Share API.`
+          return
+        }
+
+        if (navigator.canShare({ image })) {
+          try {
+            await navigator.share({
+              image,
+              title: 'Images',
+              text: 'Beautiful images'
+            })
+            output.textContent = 'Shared!'
+          } catch (error) {
+            output.textContent = `Error: ${error.message}`
+          }
+        } else {
+          output.textContent = `Your system doesn't support sharing these files.`
+        }
+      }, 'image/jpeg', '1');
     })
-
-
   </script>
 </body>
 
