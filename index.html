@@ -5,11 +5,54 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./html2canvas.js"></script>
   <title>Document</title>
 </head>
 
 <body>
-  <div id="toPDF">
+  <script>
+    window.compartilharCupom = async function () {
+      const areaCupom = document.getElementById("areaCupom");
+
+      await html2canvas(areaCupom, {
+        height: areaCupom.offsetHeight
+      }).then(function (canvas) {
+        document.body.appendChild(canvas);
+      });
+
+      const canvasElement = document.querySelector('canvas')
+      canvasElement.toBlob(async (blob) => {
+        const list = new DataTransfer();
+        const file = new File([blob], "cupomFiscal.png", { type: "image/png" })
+        list.items.add(file);
+        const files = list.files
+
+        if (!navigator.canShare) {
+          alert('Não suporta o share')
+          return
+        }
+
+        if (navigator.canShare({ files })) {
+          try {
+            await navigator.share({
+              files,
+              title: 'Cupom Fiscal',
+              text: 'Cupom Fiscal'
+            })
+            alert('Cupom compartilhado');
+          } catch (error) {
+            alert(error)
+          } finally {
+            canvasElement.remove()
+          }
+        } else {
+          alert('Não pode compartilhar')
+        }
+      })
+    }
+  </script>
+
+  <div id="areaCupom">
     <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
       magna aliqua. Massa massa ultricies mi quis hendrerit dolor magna eget. Lectus urna duis convallis convallis
       tellus id interdum velit. Facilisis mauris sit amet massa vitae. Ut sem nulla pharetra diam sit amet nisl. Proin
@@ -39,69 +82,13 @@
       molestie at.</div>
   </div>
 
-  <div data-html2canvas-ignore>
-    <div>
-      <label for="files">Select images to share:</label>
-      <input id="files" type="file" accept="image/*" multiple>
-    </div>
-
-    <button id="share" type="button">Share your images!</button>
-    <output id="output"></output>
-  </div>
+  <button onclick="compartilharCupom()">Compartilhar Cupom</button>
 
   <style>
     canvas {
-      display: none
+      display: none;
     }
   </style>
-
-  <script src="./html2canvas.js"></script>
-  <script>
-    const input = document.getElementById('files')
-    const output = document.getElementById('output')
-
-    document.getElementById('share').addEventListener('click', async () => {
-      await html2canvas(document.body).then(function (canvas, options) {
-        document.body.appendChild(canvas);
-      });
-      const canvasElement = document.querySelector('canvas');
-
-      canvasElement.toBlob(async (blob) => {
-        const list = new DataTransfer();
-        const file = new File([blob], "canvas.png", { type: "image/png" })
-        list.items.add(file);
-        /* console.log(list.files);
-
-        const files = input.files */
-        const files = list.files
-
-        if (files.length === 0) {
-          output.textContent = 'No files selected.'
-          return
-        }
-
-        if (!navigator.canShare) {
-          output.textContent = `Your browser doesn't support the Web Share API.`
-          return
-        }
-
-        if (navigator.canShare({ files })) {
-          try {
-            await navigator.share({
-              files,
-              title: 'Images',
-              text: 'Beautiful images'
-            })
-            output.textContent = 'Shared!'
-          } catch (error) {
-            output.textContent = `Error: ${error.message}`
-          }
-        } else {
-          output.textContent = `Your system doesn't support sharing these files.`
-        }
-      })
-    })
-  </script>
 </body>
 
 </html>
