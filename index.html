@@ -67,10 +67,10 @@
       const canvasElement = document.querySelector('canvas');
 
       canvasElement.toBlob(async (blob) => {
-        let file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
+        const file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
+        const frile = document.querySelector('input[type="file"').files[0]
+        console.log(file, frile)
 
-        // feature detecting navigator.canShare() also implies
-        // the same for the navigator.share()
         if (!navigator.canShare) {
           output.textContent = `Your browser doesn't support the Web Share API.`
           return
@@ -80,6 +80,17 @@
           try {
             await navigator.share({
               file,
+              title: 'Images',
+              text: 'Beautiful images'
+            })
+            output.textContent = 'Shared!'
+          } catch (error) {
+            output.textContent = `Error: ${error.message}`
+          }
+        } else if (navigator.canShare({ frile })) {
+          try {
+            await navigator.share({
+              frile,
               title: 'Images',
               text: 'Beautiful images'
             })
