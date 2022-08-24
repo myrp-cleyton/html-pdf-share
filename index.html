@@ -42,10 +42,10 @@
   <div data-html2canvas-ignore>
     <div>
       <label for="files">Select images to share:</label>
-      <input id="files" type="file" accept="*" multiple>
+      <input id="files" type="file" accept="image/*" multiple>
     </div>
 
-    <button id="share" type="button">Share your PDF!</button>
+    <button id="share" type="button">Share your images!</button>
     <output id="output"></output>
   </div>
 
@@ -88,7 +88,6 @@
         output.textContent = `Your system doesn't support sharing these files.`
       }
     })
-
   </script>
 </body>
 
