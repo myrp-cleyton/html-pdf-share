@@ -1,0 +1,19 @@
+{
+  "name": "MyrpTeste",
+  "short_name": "MyrpTeste",
+  "description": "Aplicativos do MyrpTeste",
+  "scope": "/html-pdf-share/",
+  "start_url": "/html-pdf-share/",
+  "background_color": "#02253b",
+  "theme_color": "#02253b",
+  "orientation": "portrait",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "/html-pdf-share/img/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
