@@ -3,13 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="./html2canvas.js"></script>
-  <title>Document</title>
-
+  <title>GitHub page as PWA template</title>
   <link rel="canonical" href="https://myrp-cleyton.github.io/html-pdf-share/" />
-  <link rel="manifest" href="/html-pdf-share/manifest.json">
+  <link rel="manifest" href="//html-pdf-share/manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -98,8 +96,8 @@
   <script>
     if (navigator.serviceWorker) {
       navigator.serviceWorker.register(
-        '/html-pdf-share/sw.js',
-        { scope: '/html-pdf-share/' }
+        '//html-pdf-share/sw.js',
+        { scope: '//html-pdf-share/' }
       )
     }
   </script>
