@@ -1,0 +1,17 @@
+{
+  "name": "Github Page PWA",
+  "short_name": "GPPWA",
+  "description": "Github Page as a Progressive Web App",
+  "scope": "/html-pdf-share/",
+  "start_url": "/html-pdf-share/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/html-pdf-share/img/icon.png",
+      "type": "image/png",
+      "sizes": "700x700"
+    }
+  ]
+}

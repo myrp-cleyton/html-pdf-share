@@ -1,15 +1,10 @@
 var GHPATH = '/html-pdf-share';
-var APP_PREFIX = 'gppwa_';
+var APP_PREFIX = 'djioas_';
 var VERSION = 'version_002';
 var URLS = [
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
-  `${GHPATH}/icons/icon-48.png`,
-  `${GHPATH}/icons/icon-72.png`,
-  `${GHPATH}/icons/icon-96.png`,
-  `${GHPATH}/icons/icon-128.png`,
-  `${GHPATH}/icons/icon-144.png`,
-  `${GHPATH}/icons/icon-192.png`,
+  `${GHPATH}/img/icon.png`,
 ]
 
 var CACHE_NAME = APP_PREFIX + VERSION
