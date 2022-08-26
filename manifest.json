@@ -41,6 +41,7 @@
   ],
   "start_url": "/html-pdf-share",
   "background_color": "#02253b",
+  "orientation": "portrait",
   "display": "fullscreen",
   "scope": "/",
   "theme_color": "#02253b",
