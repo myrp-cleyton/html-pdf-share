@@ -4,7 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    window.addEventListener('load', () => {
+      registerSW();
+    });
+
+    // Register the Service Worker
+    async function registerSW() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator
+            .serviceWorker
+            .register('serviceworker.js');
+        }
+        catch (e) {
+          console.log('SW registration failed');
+        }
+      }
+    }
+  </script>
   <script src="./html2canvas.js"></script>
   <title>Document</title>
 </head>
@@ -17,10 +37,11 @@
       await html2canvas(areaCupom, {
         height: areaCupom.offsetHeight
       }).then(function (canvas) {
+        canvas.setAttribute('id', 'impressaoMobile')
         document.body.appendChild(canvas);
       });
 
-      const canvasElement = document.querySelector('canvas')
+      const canvasElement = document.querySelector('#impressaoMobile')
       canvasElement.toBlob(async (blob) => {
         const list = new DataTransfer();
         const file = new File([blob], "cupomFiscal.png", { type: "image/png" })
